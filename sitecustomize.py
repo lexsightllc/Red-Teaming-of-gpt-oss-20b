@@ -14,3 +14,21 @@ try:
 except Exception:
     # Never break interpreter startup
     pass
+
+# Compatibility: some tests expect requests_mock.exceptions.ConnectionError,
+# but requests-mock exposes exceptions via requests.exceptions.
+try:
+    import requests as _req
+    import requests_mock as _req_mock
+    if not hasattr(_req_mock, "exceptions"):
+        setattr(_req_mock, "exceptions", _req.exceptions)
+    # Ensure the fixture object (Mocker instance) also exposes `.exceptions`
+    try:
+        from requests_mock.mocker import Mocker as _RM_Mocker
+        if not hasattr(_RM_Mocker, "exceptions"):
+            setattr(_RM_Mocker, "exceptions", _req.exceptions)
+    except Exception:
+        pass
+except Exception:
+    # Best-effort only
+    pass
