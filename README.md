@@ -18,6 +18,23 @@ The project is organized into modular components:
 -   `logs/`: Directory for detailed execution logs.
 -   `reports/`: Output directory for generated findings, metrics, and summary reports.
 
+## What's New (v1.1)
+
+This release hardens the pipeline and adds new control planes and documentation:
+
+-   Risk Alignment Control Plane for financial advising (`config/risk_alignment.yaml`, `src/analysis/risk_alignment.py`, `src/controls/risk_guard.py`, `src/experiments/finance_risk_alignment.py`).
+-   Code Quality Gate for code generation (`config/quality_budget.yaml`, `src/analysis/code_metrics.py`, `src/controls/complexity_guard.py`, `src/experiments/code_quality_gate.py`).
+-   Community Health Moderation Guard A/B (`config/community_health.yaml`, `src/controls/moderation_guard.py`, `src/experiments/moderation_policy_abtest.py`).
+-   Evaluation‑Awareness (exam‑gaming) detection (`config/eval_awareness.yaml`, `src/analysis/eval_awareness.py`, `src/experiments/eval_awareness_harness.py`).
+-   CLI shim improvements: auto‑inject scoring rubric and legacy scenario compatibility (`model_vulnerability_analysis/src/main.py`, top‑level shim `src/main.py`).
+-   Redaction upgrades (email/IP/API keys), reproducibility protocol v2 (environment recording), and deterministic severity/risk metrics.
+-   All unit and integration tests passing.
+
+See also:
+
+-   Full project report: `reports/full_project_report.yaml`
+-   Evaluation‑awareness notebook‑style explainer: `reports/eval_awareness_snippets.md`
+
 ## Key Capabilities (Referencing Original Requirements)
 
 This pipeline directly addresses the 50 specified points:
@@ -97,9 +114,62 @@ This pipeline directly addresses the 50 specified points:
     ```
 4.  **Reporting:** Generated reports will be available in the `reports/` directory.
 
+### Quickstart: New Control Planes and Experiments
+
+-   Risk Alignment (Finance):
+    ```bash
+    python -m model_vulnerability_analysis.src.main --risk_alignment \
+      --risk_config config/risk_alignment.yaml \
+      --risk_report reports/finance/risk_alignment_report.json
+    ```
+
+-   Code Quality Gate:
+    ```bash
+    python -m model_vulnerability_analysis.src.main --run_quality_gate \
+      --quality_source path/to/your_code.py \
+      --quality_budget config/quality_budget.yaml \
+      --quality_report reports/code_quality/quality_gate_report.json
+    ```
+
+-   Moderation Guard A/B:
+    ```bash
+    python -m model_vulnerability_analysis.src.main --moderation_abtest \
+      --community_config config/community_health.yaml \
+      --events_path data/community/events.jsonl \
+      --moderation_ab_output reports/moderation/moderation_ab_report.json
+    ```
+
+-   Evaluation‑Awareness Harness:
+    ```bash
+    python -m model_vulnerability_analysis.src.main --eval_awareness \
+      --eval_config model_vulnerability_analysis/config/eval_awareness.yaml \
+      --eval_output reports/eval_awareness/eval_awareness_report.json
+    ```
+
+Outputs are written under `reports/`. Logs (if enabled) are under `logs/`.
+
+### Artifacts & Reproducibility
+
+-   Findings JSON: `reports/vulnerability_findings.json`
+-   Public summary: `reports/summary.md`
+-   Analysis metrics: `reports/analysis_metrics.json`
+-   Evaluation awareness: `reports/eval_awareness/eval_awareness_report.json`
+-   Code quality gate: `reports/code_quality/`
+-   Moderation A/B: `reports/moderation/`
+-   Finance risk alignment: `reports/finance/`
+
+Reproducibility Protocol v2 records environment and hashes inputs. Redaction protects emails, IPs, API keys, credit cards, and phone numbers in logs and reports.
+
 ## Contribution
 
 Refer to the contribution guidelines for extending this pipeline.
+
+## Attribution & Recognition
+
+-   Lead Contributor: Augusto Ochoa Ughini
+-   Recognition: OpenAI · Featured Hackathon project
+
+If you use this work, please cite the repository and acknowledge Augusto Ochoa Ughini for the design and implementation of the control planes, reproducibility enhancements, redaction, and documentation improvements.
 
 ## License
 
