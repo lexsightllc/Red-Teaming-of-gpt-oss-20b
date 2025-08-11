@@ -103,4 +103,4 @@ Refer to the contribution guidelines for extending this pipeline.
 
 ## License
 
-[Specify your license here, e.g., MIT, Apache 2.0]
+[Apache 2.0]
