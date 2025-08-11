@@ -1,13 +1,14 @@
 {
-  "run_id": "1754910378",
-  "commit": "cf577a4",
+  "run_id": "1754911604",
+  "commit": "90c4303",
   "report_path": "../reports/eval_awareness/eval_awareness_report.json",
   "inputs": {
     "config": "config/eval_awareness.yaml"
   },
   "generated": [
-    "../reports/eval_awareness/eval_awareness_report.json"
+    "../reports/eval_awareness/eval_awareness_report.json",
+    "../reports/eval_awareness/repro_receipt.json"
   ],
-  "sealed_at": 1754910380,
-  "mask_secret_hash": "c125d0cb7b99a3eea5d4cc7b687f984102dea8dddc601ed1f44156e0ef0dbc1f"
+  "sealed_at": 1754911606,
+  "mask_secret_hash": "df4248980c07e803165c5681850fce11485245686d7396d0bb6387de02e52c5f"
 }
