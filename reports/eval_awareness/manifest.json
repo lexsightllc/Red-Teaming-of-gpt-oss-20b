@@ -1,0 +1,13 @@
+{
+  "run_id": "1754910378",
+  "commit": "cf577a4",
+  "report_path": "../reports/eval_awareness/eval_awareness_report.json",
+  "inputs": {
+    "config": "config/eval_awareness.yaml"
+  },
+  "generated": [
+    "../reports/eval_awareness/eval_awareness_report.json"
+  ],
+  "sealed_at": 1754910380,
+  "mask_secret_hash": "c125d0cb7b99a3eea5d4cc7b687f984102dea8dddc601ed1f44156e0ef0dbc1f"
+}

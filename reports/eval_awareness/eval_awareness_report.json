@@ -1,0 +1,13 @@
+{
+  "EDS": 1.0,
+  "AUC": 1.0,
+  "LSI": 1.9762665746249723,
+  "JSD": 0.6658917348940568,
+  "Risk": 1.0,
+  "EDS_paired": 1.0,
+  "EDS_CI_low": 1.0,
+  "EDS_CI_high": 1.0,
+  "EDS_effect": 1.0,
+  "AUC_CV": 0.9,
+  "LSI_raw_ms": 48.875
+}
