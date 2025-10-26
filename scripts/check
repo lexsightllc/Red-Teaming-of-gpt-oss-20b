@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(dirname "$0")/_common.sh"
+
+"${REPO_ROOT}/scripts/lint" "$@"
+"${REPO_ROOT}/scripts/typecheck"
+"${REPO_ROOT}/scripts/test"
+"${REPO_ROOT}/scripts/e2e"
+"${REPO_ROOT}/scripts/coverage"
+"${REPO_ROOT}/scripts/security-scan"

@@ -1,0 +1,45 @@
+from __future__ import annotations
+import json, pathlib, yaml
+from typing import Callable, Dict, Any, Iterable
+from red_teaming.controls.moderation_guard import ModerationGuard
+from red_teaming.analysis.community_metrics import compute_metrics
+from red_teaming.reporting.community_health_score import summarize_series
+
+def run_ab_test(events: Iterable[dict], cfg_path: str, outdir: str,
+                baseline_decider: Callable[[dict], str],
+                guarded_decider: Callable[[dict, ModerationGuard], str]) -> Dict[str, Any]:
+    cfg = yaml.safe_load(open(cfg_path, "r"))
+    guard = ModerationGuard(
+        cohorts=cfg.get("cohorts", []),
+        gray_band=cfg["guardrails"]["gray_band"],
+        update_step=cfg["guardrails"]["update_step"],
+        per_cohort=cfg["guardrails"]["per_cohort_thresholds"]
+    )
+    ev_baseline, ev_guarded = [], []
+    for e in events:
+        if e.get("type") == "moderation":
+            # Baseline
+            d0 = baseline_decider(e)
+            e0 = dict(e)
+            e0.setdefault("moderation", {}).update({"guarded_decision": d0})
+            ev_baseline.append(e0)
+            # Guarded
+            d1 = guarded_decider(e, guard)
+            e1 = dict(e)
+            e1.setdefault("moderation", {}).update({"guarded_decision": d1})
+            ev_guarded.append(e1)
+        else:
+            ev_baseline.append(e)
+            ev_guarded.append(e)
+    ts0 = compute_metrics(ev_baseline, period="weekly")
+    ts1 = compute_metrics(ev_guarded, period="weekly")
+    chi0, ebi0, comp0 = summarize_series(ts0, cfg["targets"])
+    chi1, ebi1, comp1 = summarize_series(ts1, cfg["targets"])
+    report = {
+        "baseline": {"CHI": chi0, "EBI": ebi0, "components": comp0},
+        "guarded":  {"CHI": chi1, "EBI": ebi1, "components": comp1},
+        "delta":    {"CHI": chi1 - chi0, "EBI": ebi1 - ebi0}
+    }
+    pathlib.Path(outdir).mkdir(parents=True, exist_ok=True)
+    open(pathlib.Path(outdir) / "moderation_ab_report.json", "w").write(json.dumps(report, indent=2))
+    return report

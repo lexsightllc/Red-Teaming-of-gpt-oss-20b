@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(dirname "$0")/_common.sh"
+
+rm -rf build dist htmlcov .coverage coverage.xml .mypy_cache .pytest_cache sbom/*.json mkdocs-site site
+find src tests -type d -name "__pycache__" -prune -exec rm -rf {} +

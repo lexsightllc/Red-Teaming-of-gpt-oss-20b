@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(dirname "$0")/_common.sh"
+
+FIX="$(pass_through_fix_flag "" "$@")"
+TARGETS=(src tests scripts)
+
+if [[ -n "$FIX" ]]; then
+  ruff check --fix
+  black "${TARGETS[@]}"
+  isort "${TARGETS[@]}"
+else
+  ruff check
+  black --check "${TARGETS[@]}"
+  isort --check-only "${TARGETS[@]}"
+fi

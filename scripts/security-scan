@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(dirname "$0")/_common.sh"
+
+bandit -q -r src
+pip-audit -r requirements/base.txt -r requirements/dev.txt "$@"

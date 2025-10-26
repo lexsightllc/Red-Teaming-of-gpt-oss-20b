@@ -1,0 +1,32 @@
+name: red-teaming-of-gpt-oss-20b
+language: python
+package_manager: pip
+runtime:
+  python: "3.11"
+  node: "20"
+entrypoints:
+  cli: python -m red_teaming.cli
+  docker: docker compose up red-teaming-app
+ports:
+  - 8000
+service_type: cli
+owners:
+  - red-team-platform@your-org.example
+coverage:
+  target: 0.85
+  tool: pytest-cov
+quality_gates:
+  - make lint
+  - make typecheck
+  - make test
+  - make security-scan
+scripts:
+  bootstrap: scripts/bootstrap
+  check: scripts/check
+notes:
+  - All scripts are mirrored for PowerShell users with the same basename and .ps1 extension.
+  - MkDocs generates the developer portal via `scripts/gen-docs`.
+divergences:
+  - id: cli-compat-shim
+    description: Legacy `src/main.py` retained as a thin shim for existing automation.
+    justification: Downstream consumers still import `src.main`; shim delegates to `red_teaming.cli`.

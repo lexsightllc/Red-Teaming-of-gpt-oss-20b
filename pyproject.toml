@@ -1,0 +1,96 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "red-teaming-of-gpt-oss-20b"
+version = "0.1.0"
+description = "Standardised packaging for the red-teaming research harness"
+readme = "README.md"
+authors = [{ name = "Red Team Platform", email = "red-team-platform@your-org.example" }]
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+dependencies = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["red_teaming*"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+include = "src|tests"
+
+[tool.isort]
+profile = "black"
+line_length = 100
+src_paths = ["src", "tests"]
+known_first_party = ["red_teaming"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests", "scripts"]
+select = ["E", "F", "I", "B", "C90", "UP", "N", "ANN", "ARG", "RUF", "SIM", "S", "PL", "BLE", "A"]
+ignore = ["ANN101", "ANN102", "S101"]
+fix = true
+unsafe-fixes = false
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "S301", "PLR2004"]
+"scripts/**/*.py" = ["INP001"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_configs = true
+namespace_packages = true
+mypy_path = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "7.4"
+addopts = "-ra --strict-markers"
+testpaths = [
+    "tests/unit",
+    "tests/integration",
+    "tests/e2e",
+]
+filterwarnings = [
+    "error::DeprecationWarning",
+    "error::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["red_teaming"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 85
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+tag_format = "v$version"
+version_files = ["pyproject.toml", "project.yaml"]
+
+[tool.bandit]
+targets = ["src", "scripts"]
+
+[tool.semantic_release]
+version_variable = "pyproject.toml:project.version"
+version_source = "commit"
+changelog_file = "CHANGELOG.md"
+build_command = "python -m build"
+branch = "main"
+
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
+skip-magic-trailing-comma = false
+

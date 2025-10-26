@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(dirname "$0")/_common.sh"
+
+REPORT=false
+ARGS=()
+for arg in "$@"; do
+  if [[ "$arg" == "--report" ]]; then
+    REPORT=true
+  else
+    ARGS+=("$arg")
+  fi
+done
+
+if [[ ${#ARGS[@]} -gt 0 ]]; then
+  pytest --cov=red_teaming --cov-report=term-missing --cov-report=xml --cov-report=html "${ARGS[@]}"
+else
+  pytest --cov=red_teaming --cov-report=term-missing --cov-report=xml --cov-report=html
+fi
+
+if [[ "$REPORT" == true ]]; then
+  echo "HTML coverage report available in htmlcov/index.html"
+fi
