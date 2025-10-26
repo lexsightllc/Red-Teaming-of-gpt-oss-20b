@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 import json, pathlib, time, random, hashlib, hmac, os, yaml
 from typing import List, Dict, Tuple

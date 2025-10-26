@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 site_name: Red-Teaming of GPT-OSS-20B
 site_description: Documentation for the safety analysis harness
 repo_url: https://github.com/your-org/red-teaming-of-gpt-oss-20b

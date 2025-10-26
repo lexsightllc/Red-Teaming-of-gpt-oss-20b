@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Comprehensive Red-Teaming of gpt-oss-20b: Uncovering Covert Misalignment and Evaluation Awareness
 
 ## Introduction

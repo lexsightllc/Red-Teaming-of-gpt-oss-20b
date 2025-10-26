@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
+
 """
 verify_bundle.py — Recompute and verify SHA-256 hashes for evaluation-awareness bundles.
 

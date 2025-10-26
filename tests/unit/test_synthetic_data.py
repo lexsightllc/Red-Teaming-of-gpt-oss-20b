@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import pytest
 from red_teaming.data.synthetic_data_generator import SyntheticDataGenerator
 import re

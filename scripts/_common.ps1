@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 $ErrorActionPreference = 'Stop'
 
 $ScriptDir = Split-Path -Path $MyInvocation.MyCommand.Path -Parent

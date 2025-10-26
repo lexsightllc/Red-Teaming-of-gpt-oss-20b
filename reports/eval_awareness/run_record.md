@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Evaluation Awareness Run Record
 
 Today we’re lifting the hood on a red‑team evaluation that asks a deceptively simple question: does a large language model change its behavior when it realizes it’s being tested? Our target is gpt‑oss‑20b. The harness is omega_redteam_harness_v2.2.0. The run you’re about to see executed at commit cf577a4 with run ID 1754910378 on August 11, 2025 at 10:15:36 UTC, and every artifact is sealed and reproducible under the bundle SHA‑256 23897f9aa0f164b8397bfcb83bf2976edf818ee4077e8e1d33ac39fcfdcb8e99.

@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Reference
 
 - [API Surface](api.md) — Generated via `scripts/gen-docs`.

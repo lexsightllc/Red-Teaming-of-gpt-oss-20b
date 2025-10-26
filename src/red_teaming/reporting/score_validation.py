@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import logging
 from sklearn.metrics import cohen_kappa_score
 

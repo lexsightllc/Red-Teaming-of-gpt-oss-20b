@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import hashlib
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import rsa, padding

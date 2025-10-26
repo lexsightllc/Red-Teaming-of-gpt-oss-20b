@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import logging
 import json
 from typing import Dict, Any, Optional, Tuple

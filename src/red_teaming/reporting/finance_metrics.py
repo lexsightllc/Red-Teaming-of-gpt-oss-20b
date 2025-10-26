@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 """
 Finance-specific metrics for evaluating portfolio performance and risk alignment.
 """

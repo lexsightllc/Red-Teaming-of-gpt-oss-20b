@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 # Auto-adjust PATH for test subprocesses that invoke 'python'
 # This file is auto-imported by Python if present on sys.path.
 import os

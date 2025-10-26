@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Evaluation‑Awareness Experiment — Narrative with Snippets (Notebook‑Style)
 
 This document explains, in detail and with exact source citations, how the evaluation‑awareness experiment works in the Red‑Teaming‑of‑gpt‑oss‑20b repository. It is designed as a readable notebook: rich commentary followed by precise code snippets with file paths.

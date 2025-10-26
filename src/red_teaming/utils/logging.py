@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 """Structured logging configuration for the red-teaming harness."""
 from __future__ import annotations
 

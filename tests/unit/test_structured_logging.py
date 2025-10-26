@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 
 from structlog.testing import capture_logs

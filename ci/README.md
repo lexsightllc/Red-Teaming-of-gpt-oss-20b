@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Continuous Integration
 
 The GitHub Actions workflow defined in `.github/workflows/ci.yml` executes `make check` across Python 3.11 on Ubuntu. Dependency caching uses pip's built-in cache keyed by the requirements lockfiles.

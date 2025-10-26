@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Red-Teaming of GPT-OSS-20B
 
 A structured platform for analysing and hardening large-model behaviour. The repository now follows a canonical layout so contributors can bootstrap, lint, test, and release with a single command set on any machine.
@@ -83,3 +85,16 @@ Run `make gen-docs` to build the MkDocs site. ADRs live under `docs/adr/` with M
 - If Node.js tooling is unavailable, disable commitlint hooks via `SKIP=commitizen` temporarily but restore before merging.
 
 For questions or escalations email `red-team-platform@your-org.example`.
+
+## License
+
+This project is licensed under the [Mozilla Public License 2.0](LICENSE). Any distribution must
+also include the accompanying [NOTICE](NOTICE). Modifications to MPL-covered files must be shared
+under the same MPL-2.0 terms, while larger works that merely include these files may remain under
+their own licenses provided the MPL files stay under MPL-2.0.
+
+## Credits
+
+Red-Teaming-of-gpt-oss-20b © 2025 Augusto “Guto” Ochoa Ughini. Third-party package notices are
+captured via `scripts/license-scan` and published in `reports/pip-licenses.json` for inclusion in any
+redistribution.

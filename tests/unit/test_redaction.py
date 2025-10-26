@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import pytest
 from red_teaming.reproducibility.logging_redaction import LoggingRedaction
 import re

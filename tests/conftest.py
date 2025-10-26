@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import pytest
 import requests
 import requests_mock as _req_mock

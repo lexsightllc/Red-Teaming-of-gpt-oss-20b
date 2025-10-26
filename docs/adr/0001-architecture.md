@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # ADR 0001: Adopt Canonical Safety Platform Structure
 
 - Status: Accepted

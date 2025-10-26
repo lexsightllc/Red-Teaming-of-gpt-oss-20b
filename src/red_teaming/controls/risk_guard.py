@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 """
 Risk guard for enforcing risk alignment in portfolio recommendations.
 

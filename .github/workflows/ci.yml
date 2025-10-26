@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 name: CI
 
 on:
@@ -88,6 +90,34 @@ jobs:
             gitleaks-report.json
             reports/license-summary.json
             reports/pip-licenses.json
+
+  license-hygiene:
+    name: License Hygiene
+    runs-on: ubuntu-latest
+    needs: checks
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install license tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install "scancode-toolkit>=32.0.0" reuse
+      - name: Run ScanCode license scan
+        run: |
+          mkdir -p reports
+          scancode --license --json-pp reports/scancode-licenses.json --strip-root \
+            --ignore ".git" --ignore ".venv" --ignore "sbom" --ignore "reports" .
+      - name: Verify SPDX headers with REUSE
+        run: reuse lint
+      - name: Upload license hygiene artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-hygiene
+          path: reports/scancode-licenses.json
 
   supply-chain:
     name: Supply Chain

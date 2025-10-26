@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Code of Conduct
 
 We are committed to a harassment-free, inclusive, and collaborative community. All participants agree to:
