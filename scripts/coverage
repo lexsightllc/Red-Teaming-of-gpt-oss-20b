@@ -12,11 +12,70 @@ for arg in "$@"; do
   fi
 done
 
-if [[ ${#ARGS[@]} -gt 0 ]]; then
-  pytest --cov=red_teaming --cov-report=term-missing --cov-report=xml --cov-report=html "${ARGS[@]}"
-else
-  pytest --cov=red_teaming --cov-report=term-missing --cov-report=xml --cov-report=html
-fi
+pytest --cov=red_teaming --cov-report=term-missing --cov-report=xml --cov-report=html "${ARGS[@]}"
+
+python <<'PY'
+"""Validate coverage against dynamic thresholds."""
+from __future__ import annotations
+
+import json
+import math
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+REPO_ROOT = Path("${REPO_ROOT}")
+BASELINE_PATH = REPO_ROOT / "configs" / "coverage-baseline.json"
+XML_PATH = REPO_ROOT / "coverage.xml"
+SUMMARY_PATH = REPO_ROOT / "reports" / "coverage-summary.json"
+SUMMARY_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+if not XML_PATH.exists():
+    print("Coverage XML report not found at", XML_PATH, file=sys.stderr)
+    sys.exit(1)
+
+if not BASELINE_PATH.exists():
+    print("Baseline coverage file missing at", BASELINE_PATH, file=sys.stderr)
+    sys.exit(1)
+
+root = ET.parse(XML_PATH).getroot()
+line_rate = float(root.attrib.get("line-rate", 0.0)) * 100.0
+branch_rate = float(root.attrib.get("branch-rate", 0.0)) * 100.0
+
+baseline = json.loads(BASELINE_PATH.read_text())
+base_line = float(baseline.get("line", 0.0))
+base_branch = float(baseline.get("branch", 0.0))
+
+def threshold(baseline_value: float, floor: float) -> float:
+    return max(floor, 5.0 * math.floor(baseline_value / 5.0))
+
+threshold_line = threshold(base_line, 70.0)
+threshold_branch = threshold(base_branch, 60.0)
+
+summary = {
+    "measured": {"line": line_rate, "branch": branch_rate},
+    "baseline": {"line": base_line, "branch": base_branch},
+    "threshold": {"line": threshold_line, "branch": threshold_branch},
+}
+SUMMARY_PATH.write_text(json.dumps(summary, indent=2))
+
+failures = []
+if line_rate + 1e-6 < threshold_line:
+    failures.append(
+        f"line coverage {line_rate:.2f}% fell below threshold {threshold_line:.2f}%"
+    )
+if branch_rate + 1e-6 < threshold_branch:
+    failures.append(
+        f"branch coverage {branch_rate:.2f}% fell below threshold {threshold_branch:.2f}%"
+    )
+
+if failures:
+    print("\n".join(failures), file=sys.stderr)
+    print("See", SUMMARY_PATH, "for full metrics.", file=sys.stderr)
+    sys.exit(1)
+
+print("Coverage validated against thresholds. Summary written to", SUMMARY_PATH)
+PY
 
 if [[ "$REPORT" == true ]]; then
   echo "HTML coverage report available in htmlcov/index.html"

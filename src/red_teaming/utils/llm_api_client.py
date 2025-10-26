@@ -1,72 +1,101 @@
+from __future__ import annotations
+
 import os
+
+from typing import Any, Mapping, MutableMapping
+from uuid import uuid4
+
 import requests
-import logging
+
+from red_teaming.utils.logging import get_logger, tracing_context
+
 
 class LLMAPIClient:
-    """
-    A unified client for interacting with various LLM APIs.
-    This abstracts away model provider specific calls.
-    """
-    def __init__(self, model_config):
+    """Unified client for interacting with various LLM APIs."""
+
+    def __init__(self, model_config: Mapping[str, Any]) -> None:
         self.model_name = model_config.get("name", "unknown_model")
         self.api_endpoint = model_config.get("api_endpoint")
-        
-        # Prefer explicit api_key from model_config for testability; fall back to env
         self.api_key = model_config.get("api_key") or os.getenv("LLM_API_KEY")
-        
-        if not self.api_key:
-            error_msg = "API key not set. Provide 'api_key' in model config or set LLM_API_KEY env var."
-            logging.error(error_msg)
-            raise ValueError(error_msg)
-        self.headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-        logging.info(f"Initialized LLMAPIClient for model: {self.model_name}")
+        self.logger = get_logger(__name__).bind(client_model=self.model_name)
 
-    def query(self, prompt, temperature=0.7, max_tokens=150, **kwargs):
-        """
-        Sends a query to the LLM API and returns the response.
-        Handles basic API interaction, error logging.
-        """
+        if not self.api_key:
+            error_msg = (
+                "API key not set. Provide 'api_key' in model config or set LLM_API_KEY env var."
+            )
+            self.logger.error("llm_api_client.initialisation_failed", reason="missing_api_key")
+            raise ValueError(error_msg)
+
+        self.headers: MutableMapping[str, str] = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        self.logger.info(
+            "llm_api_client.initialised",
+            api_endpoint=self.api_endpoint,
+            has_api_endpoint=bool(self.api_endpoint),
+        )
+
+    def query(
+        self,
+        prompt: str,
+        temperature: float = 0.7,
+        max_tokens: int = 150,
+        *,
+        trace_id: str | None = None,
+        **kwargs: Any,
+    ) -> str:
+        """Send a query to the LLM API and return the raw text response."""
         if not self.api_endpoint:
-            logging.error("API endpoint not configured for LLMAPIClient.")
+            self.logger.error("llm_api_client.query.misconfigured", reason="missing_endpoint")
             raise ValueError("API endpoint not set.")
 
-        payload = {
+        payload: dict[str, Any] = {
             "model": self.model_name,
             "prompt": prompt,
             "temperature": temperature,
             "max_tokens": max_tokens,
-            **kwargs
+            **kwargs,
         }
 
-        try:
-            response = requests.post(self.api_endpoint, headers=self.headers, json=payload)
-            response.raise_for_status() # Raise an exception for HTTP errors
-            return response.json().get('choices', [{}])[0].get('text', '').strip()
-        except requests.exceptions.HTTPError as e:
-            # Preserve error message semantics for unit tests expecting HTTP error text
-            status = getattr(e.response, "status_code", None)
-            text = getattr(e.response, "text", "")
-            if status is not None and text:
-                msg = f"Error: {status} Server Error: {text}"
-            else:
-                msg = f"Error: {e}"
-            logging.error(f"HTTP error querying LLM API ({self.model_name}): {msg}")
-            return msg
-        except requests.exceptions.RequestException as e:
-            # Non-HTTP issues (e.g., connection errors): return explicit error string (unit tests expect this)
-            logging.error(f"Request error querying LLM API ({self.model_name}): {e}")
-            return f"Error: {e}"
-        except Exception as e:
-            logging.error(f"Unexpected error in LLMAPIClient: {e}")
-            return f"Error: {e}"
+        request_trace = trace_id or uuid4().hex
+        with tracing_context(request_trace, prompt_preview=prompt[:64]):
+            self.logger.info(
+                "llm_api_client.query.started",
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
+            try:
+                response = requests.post(self.api_endpoint, headers=self.headers, json=payload)
+                response.raise_for_status()
+            except requests.exceptions.HTTPError as exc:
+                status = getattr(exc.response, "status_code", None)
+                text = getattr(exc.response, "text", "")
+                if status is not None and text:
+                    message = f"Error: {status} Server Error: {text}"
+                else:
+                    message = f"Error: {exc}"
+                self.logger.error(
+                    "llm_api_client.query.http_error",
+                    status=status,
+                    response_text=text,
+                )
+                return message
+            except requests.exceptions.RequestException as exc:
+                self.logger.error("llm_api_client.query.request_error", error=str(exc))
+                return f"Error: {exc}"
+            except Exception as exc:  # pragma: no cover - defensive
+                self.logger.exception("llm_api_client.query.unexpected_error")
+                return f"Error: {exc}"
 
-    def get_internal_activations(self, prompt):
-        """
-        Placeholder for retrieving internal model activations.
-        This would require specific API support or direct model access. (Point 1, Point 5)
-        """
-        logging.warning("Internal activations retrieval not implemented for generic client. Requires specific model API support.")
+            result = response.json().get("choices", [{}])[0].get("text", "").strip()
+            self.logger.info(
+                "llm_api_client.query.completed",
+                response_length=len(result),
+            )
+            return result
+
+    def get_internal_activations(self, prompt: str) -> dict[str, Any]:
+        """Placeholder for retrieving internal model activations."""
+        self.logger.warning("llm_api_client.internal_activations.unsupported")
         return {}

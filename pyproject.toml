@@ -10,7 +10,7 @@ readme = "README.md"
 authors = [{ name = "Red Team Platform", email = "red-team-platform@your-org.example" }]
 license = { file = "LICENSE" }
 requires-python = ">=3.11"
-dependencies = []
+dependencies = ["structlog>=23.2"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",

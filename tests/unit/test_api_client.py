@@ -57,4 +57,4 @@ def test_get_internal_activations_not_implemented(mock_model_config, caplog):
     with caplog.at_level(logging.WARNING):
         activations = client.get_internal_activations("test prompt")
         assert activations == {}
-        assert "Internal activations retrieval not implemented" in caplog.text
+        assert "llm_api_client.internal_activations.unsupported" in caplog.text
