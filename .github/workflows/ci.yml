@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements/base.txt -r requirements/dev.txt
+      - name: Install pre-commit
+        run: |
+          python -m pip install pre-commit
+          pre-commit install --hook-type pre-commit --hook-type commit-msg
+      - name: Run checks
+        run: make check
+      - name: Generate SBOM
+        run: ./scripts/sbom
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom
+      - name: Run coverage summary
+        run: ./scripts/coverage --report
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: htmlcov

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MSG_FILE=${1:-}
+if [[ -z "$MSG_FILE" || ! -f "$MSG_FILE" ]]; then
+  echo "Usage: scripts/commitlint <commit-msg-file>" >&2
+  exit 1
+fi
+
+python - <<'PY'
+from __future__ import annotations
+import re
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+message = path.read_text(encoding="utf-8").strip()
+if not message:
+    sys.exit(0)
+pattern = re.compile(r"^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z0-9-]+\))?(\!)?: [^\s].+")
+if not pattern.match(message):
+    print("Commit message must follow Conventional Commits (e.g. 'feat(control): add guard').", file=sys.stderr)
+    sys.exit(1)
+if len(message) > 100:
+    print("Commit message subject should be 100 characters or fewer.", file=sys.stderr)
+    sys.exit(1)
+PY
+"$MSG_FILE"

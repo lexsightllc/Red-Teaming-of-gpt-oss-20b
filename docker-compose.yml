@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  red-teaming-app:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile
+    image: red-teaming-of-gpt-oss-20b:latest
+    env_file:
+      - .env.example
+    volumes:
+      - ./:/workspace
+    command: ["python", "-m", "red_teaming.cli", "--config", "configs/model_vulnerability_analysis/testing_params.yaml"]
+    ports:
+      - "8000:8000"
+    tty: true

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(dirname "$0")/_common.sh"
+
+ensure_command python
+if python -m watchfiles --help >/dev/null 2>&1; then
+  python -m watchfiles --filter python -- python -m red_teaming.cli "$@"
+else
+  python -m red_teaming.cli "$@"
+fi

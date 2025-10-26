@@ -1,0 +1,7 @@
+# Conventional Commit Template
+# <type>(optional scope): <description>
+# Example: feat(control): add risk budgeting heuristics
+
+# Body: explain what and why.
+
+# Footer: reference issues, breaking changes, and security considerations.

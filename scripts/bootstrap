@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/_common.sh"
+
+python3 -m venv "${REPO_ROOT}/.venv"
+source "${REPO_ROOT}/.venv/bin/activate"
+python -m pip install --upgrade pip
+python -m pip install -r "${REPO_ROOT}/requirements/base.txt" -r "${REPO_ROOT}/requirements/dev.txt"
+
+pre-commit install --hook-type pre-commit --hook-type commit-msg
+
+git config commit.template "${REPO_ROOT}/.gitmessage"
+
+echo "Bootstrap complete. Run 'make check' to validate the environment."

@@ -1,0 +1,16 @@
+site_name: Red-Teaming of GPT-OSS-20B
+site_description: Documentation for the safety analysis harness
+repo_url: https://github.com/your-org/red-teaming-of-gpt-oss-20b
+nav:
+  - Home: docs/index.md
+  - Developer Guide: docs/developer-guide.md
+  - Reference:
+      - Overview: docs/reference/README.md
+      - API: docs/reference/api.md
+  - ADRs:
+      - ADR 0001: docs/adr/0001-architecture.md
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.superfences

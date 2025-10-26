@@ -52,3 +52,19 @@ logs/
 .env
 .env.local
 .env.*.local
+
+# Virtual environment created by bootstrap
+.venv/
+
+# Coverage and build artifacts
+htmlcov/
+.coverage
+coverage.xml
+sbom/
+site/
+
+# Python build
+*.egg-info/
+
+# Generated docs
+mkdocs-site/

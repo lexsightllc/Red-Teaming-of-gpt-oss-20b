@@ -1,0 +1,6 @@
+# Default owners
+* @your-org/red-team-platform
+
+# Critical configs require explicit review
+configs/model_vulnerability_analysis/ @your-org/safety-engineering
+scripts/ @your-org/dev-experience

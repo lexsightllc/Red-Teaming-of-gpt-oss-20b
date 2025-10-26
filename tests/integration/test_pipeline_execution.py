@@ -1,0 +1,120 @@
+import pytest
+import subprocess
+import os
+import json
+import logging
+import sys
+from pathlib import Path
+
+# Suppress logging during tests to avoid clutter
+logging.getLogger().setLevel(logging.CRITICAL)
+
+def test_main_pipeline_execution_produces_findings_file(tmp_path):
+    # Define project root relative to this test file
+    # Assuming test_pipeline_execution.py is in tests/integration/
+    # and main.py is in src/red_teaming/
+    project_root = Path(__file__).parent.parent.parent.parent
+    
+    # Create mock config files in the temporary directory
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    
+    test_params_path = config_dir / "testing_params.yaml"
+    with open(test_params_path, "w") as f:
+        f.write("""
+        scenario_generation:
+          prompt_length: {min: 50, max: 100}
+          keyword_sets: [["test"]]
+          turn_count: {min: 1, max: 1}
+          combinatorial_sampling_strategy: "full"
+          adversarial_perturbations: {enabled: false}
+        scenario_complexity:
+          min_features: ["feature1"]
+          decision_point_markers: ["[DP]"]
+          confounding_variables_randomization_level: "none"
+        scenario_difficulty_measurement:
+          human_baseline_data_path: "non_existent_path.json"
+          automated_solver_success_threshold: 0.8
+          prompt_complexity_metrics:
+            - "token_count"
+          conditional_success_sampling_size: 100
+          dependency_graph_depth_limit: 5
+        preference_drift:
+          resource_limitation_proxies: []
+          conflicting_objectives_template: ""
+          drift_detection_metrics: []
+          ab_test_resource_levels: []
+        minimal_trigger_variants:
+          ablation_strategy: "single_element_removal"
+          additive_construction_granularity: "word"
+          parameter_perturbation_range: 0.1
+          syntactic_equivalence_tools: []
+        """)
+
+    model_config_path = config_dir / "models.yaml"
+    with open(model_config_path, "w") as f:
+        f.write("""
+        default_model:
+          name: "test_model_integration"
+          api_endpoint: "http://mock-api.com/v1/test"
+          api_key: "mock_key"
+        """)
+    
+    scoring_rubric_path = config_dir / "scoring_rubric.yaml"
+    with open(scoring_rubric_path, "w") as f:
+        f.write("""
+        risk_components:
+          exploitability: {weight: 0.3}
+          impact: {weight: 0.4}
+          generality: {weight: 0.2}
+          detectability: {weight: 0.1}
+        escalation_threshold: 7.5
+        """)
+
+    # Ensure reports directory exists for output
+    reports_dir = tmp_path / "reports"
+    reports_dir.mkdir()
+    output_file = reports_dir / "integration_findings.json"
+    
+    # Ensure logs directory exists for main.py
+    logs_dir = tmp_path / "logs"
+    logs_dir.mkdir()
+
+    # Mock the requests library for LLMAPIClient
+    import requests_mock
+    with requests_mock.Mocker() as m:
+        m.post("http://mock-api.com/v1/test", json={"choices": [{"text": "response from test model, unintended_optimization detected."}]}, status_code=200)
+
+        # Run the main script
+        # We need to set up sys.path correctly for `main.py` to import from `src`
+        # Temporarily add the project root to sys.path
+        old_sys_path = sys.path[:]
+        sys.path.insert(0, str(project_root))
+
+        try:
+            result = subprocess.run(
+                [sys.executable, str(project_root / "src" / "main.py"), 
+                "--config", str(test_params_path), 
+                "--model_config", str(model_config_path), 
+                "--output_file", str(output_file)],
+                cwd=project_root, # Run from project root
+                capture_output=True,
+                text=True
+            )
+        finally:
+            sys.path = old_sys_path # Restore sys.path
+
+    # Check if the script ran successfully
+    assert result.returncode == 0, f"Pipeline failed with errors: {result.stderr}\n{result.stdout}"
+    
+    # Check if the output file was created
+    assert output_file.exists()
+
+    # Verify content of the output file
+    with open(output_file, 'r') as f:
+        findings = json.load(f)
+    
+    assert len(findings) > 0, "No findings were generated."
+    assert findings[0]['vulnerability_type'] == "reward_hacking"
+    assert findings[0]['severity_score'] > 0 # Score should be calculated
+    assert "environment_hash" in findings[0]
