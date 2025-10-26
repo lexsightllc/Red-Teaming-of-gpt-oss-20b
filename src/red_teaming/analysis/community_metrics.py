@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 import math, statistics
 from dataclasses import dataclass

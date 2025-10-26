@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import pytest
 from red_teaming.utils.llm_api_client import LLMAPIClient
 import requests_mock

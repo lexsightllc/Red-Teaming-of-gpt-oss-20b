@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 import json, os, sys, hashlib, time, subprocess, pathlib
 from typing import Dict, Any, List

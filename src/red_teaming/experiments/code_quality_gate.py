@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 import json, pathlib, yaml
 from red_teaming.analysis.code_metrics import measure_module

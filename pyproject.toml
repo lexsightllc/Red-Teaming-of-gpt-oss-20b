@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 [build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -8,13 +10,13 @@ version = "0.1.0"
 description = "Standardised packaging for the red-teaming research harness"
 readme = "README.md"
 authors = [{ name = "Red Team Platform", email = "red-team-platform@your-org.example" }]
-license = { file = "LICENSE" }
+license = { text = "MPL-2.0" }
 requires-python = ">=3.11"
 dependencies = ["structlog>=23.2"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
     "Operating System :: OS Independent",
 ]
 

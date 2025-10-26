@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Infrastructure
 
 - `docker/Dockerfile` builds a reproducible container image with pinned dependencies.

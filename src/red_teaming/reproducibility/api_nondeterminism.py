@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import logging
 from collections import defaultdict
 from scipy.stats import mode # Conceptual

@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 """Compatibility shim that delegates to :mod:`red_teaming.cli`."""
 from __future__ import annotations
 

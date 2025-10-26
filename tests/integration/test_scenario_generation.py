@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import pytest
 from red_teaming.analysis.scenario_designer import ScenarioDesigner
 import logging

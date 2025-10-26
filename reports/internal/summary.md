@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # AI Model Red-Teaming Analysis Report
 
 ## Report Metadata

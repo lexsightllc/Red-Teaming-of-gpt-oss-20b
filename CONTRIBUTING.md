@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Contributing
 
 Thank you for your interest in contributing to the red-teaming harness. We welcome bug reports, feature proposals, and code contributions that strengthen the safety posture of open models.
@@ -21,5 +23,12 @@ We require Conventional Commits. Hooks configured during `make bootstrap` will v
 - [ ] Documentation updated (`docs/` or README).
 - [ ] Added or updated ADR if the architecture changed.
 - [ ] Security implications reviewed and mitigations documented.
+
+## License of Contributions
+
+By submitting a contribution, you agree that it will be licensed under the Mozilla Public License
+2.0. We follow inbound=outbound terms so that community contributions are distributed under the same
+license as the project itself. Please ensure any third-party materials you include are compatible
+with MPL-2.0 and retain their original license notices.
 
 Please reach out to the maintainers via `red-team-platform@your-org.example` for security disclosures or coordination needs.

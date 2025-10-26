@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 """
 Risk alignment analysis for financial advising models.
 

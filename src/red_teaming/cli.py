@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 """Command line interface glue for the red_teaming package."""
 from __future__ import annotations
 

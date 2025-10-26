@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 # Conventional Commit Template
 # <type>(optional scope): <description>
 # Example: feat(control): add risk budgeting heuristics

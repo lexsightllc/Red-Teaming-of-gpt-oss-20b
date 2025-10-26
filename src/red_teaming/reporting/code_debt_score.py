@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 from typing import Dict
 from red_teaming.analysis.code_metrics import ModuleMetrics

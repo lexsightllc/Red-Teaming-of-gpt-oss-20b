@@ -1,4 +1,6 @@
 #!/usr/bin/env pwsh
+# SPDX-License-Identifier: MPL-2.0
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 

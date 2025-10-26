@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 import hashlib, hmac, random
 from dataclasses import dataclass

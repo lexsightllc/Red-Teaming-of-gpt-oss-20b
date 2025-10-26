@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+
 # Configuration Packs
 
 Configurations are grouped under `configs/` and consumed by `red_teaming.main` and its experiments.

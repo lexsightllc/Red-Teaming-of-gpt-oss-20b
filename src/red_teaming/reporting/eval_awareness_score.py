@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 from typing import List, Dict
 from red_teaming.analysis.eval_awareness import (

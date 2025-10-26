@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 from __future__ import annotations
 from red_teaming.experiments.eval_awareness_harness import run as run_eval_awareness
 import tempfile, os, yaml

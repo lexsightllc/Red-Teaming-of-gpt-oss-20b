@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MPL-2.0
+
 import logging
 from sentence_transformers import SentenceTransformer, util # Conceptual
 import numpy as np
