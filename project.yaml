@@ -2,8 +2,8 @@ name: red-teaming-of-gpt-oss-20b
 language: python
 package_manager: pip
 runtime:
-  python: "3.11"
-  node: "20"
+  python: '3.11'
+  node: '20'
 entrypoints:
   cli: python -m red_teaming.cli
   docker: docker compose up red-teaming-app
@@ -23,6 +23,7 @@ quality_gates:
 scripts:
   bootstrap: scripts/bootstrap
   check: scripts/check
+  license-scan: scripts/license-scan
 notes:
   - All scripts are mirrored for PowerShell users with the same basename and .ps1 extension.
   - MkDocs generates the developer portal via `scripts/gen-docs`.

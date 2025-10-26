@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: MIT
+# Allowlisted licenses for production dependencies.
+allowed:
+  - Apache-2.0
+  - Apache License 2.0
+  - Apache Software License
+  - BSD-2-Clause
+  - BSD-3-Clause
+  - BSD License
+  - ISC
+  - MIT
+  - MIT License
+  - MPL-2.0
+  - Mozilla Public License 2.0
+  - PSF-2.0
+  - Python Software Foundation License

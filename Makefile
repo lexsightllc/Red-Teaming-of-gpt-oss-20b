@@ -1,4 +1,4 @@
-.PHONY: bootstrap dev lint fmt typecheck test e2e coverage build package release update-deps security-scan sbom gen-docs migrate clean check
+.PHONY: bootstrap dev lint fmt typecheck test e2e coverage build package release update-deps security-scan sbom gen-docs migrate clean check license-scan
 
 bootstrap:
 	./scripts/bootstrap
@@ -38,6 +38,9 @@ update-deps:
 
 security-scan:
 	./scripts/security-scan
+
+license-scan:
+	./scripts/license-scan
 
 sbom:
 	./scripts/sbom

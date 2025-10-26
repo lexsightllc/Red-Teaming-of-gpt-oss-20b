@@ -1,0 +1,5 @@
+# Default code owners for the red-teaming harness
+*       @your-org/red-team-platform
+
+# Documentation ownership is shared with the technical writing group
+/docs   @your-org/tech-writers
