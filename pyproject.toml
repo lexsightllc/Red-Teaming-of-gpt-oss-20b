@@ -12,7 +12,22 @@ readme = "README.md"
 authors = [{ name = "Red Team Platform", email = "red-team-platform@your-org.example" }]
 license = { text = "MPL-2.0" }
 requires-python = ">=3.11"
-dependencies = ["structlog>=23.2"]
+dependencies = [
+    "cryptography>=41.0",
+    "docker>=6.1",
+    "loguru>=0.7",
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "pydantic>=2.6",
+    "PyYAML>=6.0",
+    "requests>=2.31",
+    "scikit-learn>=1.3",
+    "scipy>=1.11",
+    "seaborn>=0.13",
+    "structlog>=23.2",
+    "tqdm>=4.66",
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
