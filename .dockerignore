@@ -1,0 +1,79 @@
+# SPDX-License-Identifier: MPL-2.0
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# IDE & Development
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.env
+.env.local
+
+# Documentation
+docs/_build/
+site/
+*.md
+!README.md
+
+# Tests and CI
+tests/
+.github/
+.gitlab-ci.yml
+.circleci/
+azure-pipelines.yml
+tox.ini
+
+# Build and packaging
+requirements/dev.txt
+Makefile
+pyproject.toml
+setup.py
+setup.cfg
+MANIFEST.in
+
+# Tools and scripts
+scripts/
+tools/
+ci/
+
+# Reports and logs
+reports/
+logs/
+*.log
+.coverage
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Miscellaneous
+*.md
+LICENSE*
+NOTICE
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+CHANGELOG.md
